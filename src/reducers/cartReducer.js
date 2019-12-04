@@ -81,6 +81,21 @@ const cartReducer = (state = initialState, action) => {
         };
       }
     }
+    case 'REMOVE_ITEM_FROM_CART': {
+      let itemToBeRemoved = state.itemsAddedToCart.find(
+        item => item.id === action.itemId
+      );
+      let itemAlreadyExistingInCart = state.itemsAddedToCart.filter(
+        existingItem => existingItem.id !== action.itemId
+      );
+
+      return {
+        ...state,
+        itemsAddedToCart: itemAlreadyExistingInCart,
+        totalPrice:
+          state.totalPrice - itemToBeRemoved.price * itemToBeRemoved.quantity
+      };
+    }
   }
 
   return state;
